@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from .models import News
+
 
 # контроллер(вьюшка) отрабатывает клиентский запрос, запрашивает данные у модели и возвращает ответ в виде представление
 # заполнненные этими данными
@@ -8,9 +10,6 @@ from django.http import HttpResponse
 
 
 def index(request):
-    print(request)
-    return HttpResponse('Hello World')
+    news = News.objects.order_by('-created_at')
+    return render(request, 'news/index.html', {'news': news, 'title': 'Список новостей'})
 
-
-def test(request):
-    return HttpResponse('<h1>Test page</h1>')
