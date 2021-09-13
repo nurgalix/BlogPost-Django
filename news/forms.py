@@ -4,7 +4,7 @@ import re
 from django.core.exceptions import ValidationError
 
 
-class NewForm(forms.ModelForm):
+class NewsForm(forms.ModelForm):
     class Meta:
         model = News
         # fields = '__all__'
