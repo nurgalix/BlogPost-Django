@@ -1,6 +1,7 @@
 from django import template
 
 from news.models import Category
+from django.db.models import Count
 
 register = template.Library()
 
@@ -12,5 +13,7 @@ def get_categories():
 
 @register.inclusion_tag('news/list_categories.html')
 def show_categories(arg1='Hello', arg2='world'):
-    categories = Category.objects.all()
+    # categories = Category.objects.all()
+    # Выводит рубрики в которой больше 0 записи
+    categories = Category.objects.annotate(cnt=Count('news')).filter(cnt__gt=0)
     return {'categories': categories, 'arg1': arg1, 'arg2':arg2}
