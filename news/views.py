@@ -13,6 +13,13 @@ from .utils import MyMixin
 # заполнненные этими данными
 # некий связующие звено между моделями(данные) и представлениями(отображения)
 
+def test(request):
+    objects = ['john1', 'john2', 'john3']
+    paginator = Paginator(objects, 2)
+    page_num = request.GET.get('page', 1)
+    page_objects = paginator.get_page(page_num)
+    return render(request, 'news/test.html', {'page_obj': page_objects})
+
 
 class HomeNews(MyMixin, ListView):
     model = News
@@ -20,6 +27,7 @@ class HomeNews(MyMixin, ListView):
     context_object_name = 'news'
     # extra_context = {'title': 'Главная'}
     mixin_prop = 'hello world'
+    paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,6 +44,7 @@ class NewsByCategory(MyMixin, ListView):
     template_name = 'news/home_news_list.html'
     context_object_name = 'news'
     allow_empty = False
+    paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
